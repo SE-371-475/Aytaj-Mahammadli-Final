@@ -42,7 +42,7 @@ public class Player {
     
         while (presentNode != null) {
             int totalWeight = presentNode.a + presentNode.b + presentNode.c;
-            if (totalWeight > maxWeight) { //if total weight is higher than our max weight, we update our max weight, node and its index
+            if (totalWeight > maxWeight) { // if total weight is higher than our max weight, we update our max weight, node and its index
                 maxWeight = totalWeight;
                 nodeWithMaxWeight = presentNode;
                 indOfMaxNode = presentNode.ind; 
@@ -75,6 +75,44 @@ public class Player {
 
         if (nodeWithMinWeight != null) {
             System.out.println("Min weight player >> Node (index: " + indOfMinNode + ", its values: " + nodeWithMinWeight.a + ", " + nodeWithMinWeight.b + ", " + nodeWithMinWeight.c + ")");
+        }
+    }
+
+    // findMinMaxWeight() method to find both MIN and MAX weights together
+    public void findMinMaxWeight() {
+        SeLinkList presentNode = head;
+        SeLinkList nodeWithMinWeight = null; // node with the lowest weight
+        SeLinkList nodeWithMaxWeight = null; // node with the highest weight
+        int indOfMinNode = -1; // index of the node with the lowest weight
+        int indOfMaxNode = -1; // index of the node with the highest weight
+        int minWeight = Integer.MAX_VALUE; // we define minWeight in which we can compare and store the min weight value later
+        int maxWeight = Integer.MIN_VALUE; // we define maxWeight in which we can compare and store the max weight value later
+
+        // filtering the list and comparing values with each other to find MIN and MAX
+        while (presentNode != null) {
+            int totalWeight = presentNode.a + presentNode.b + presentNode.c;
+
+            // if total weight is lower than our min weight, we update our min weight, node and its index
+            if (totalWeight < minWeight) {
+                minWeight = totalWeight;
+                nodeWithMinWeight = presentNode;
+                indOfMinNode = presentNode.ind;
+            }
+
+            // if total weight is higher than our max weight, we update our max weight, node and its index
+            if (totalWeight > maxWeight) {
+                maxWeight = totalWeight;
+                nodeWithMaxWeight = presentNode;
+                indOfMaxNode = presentNode.ind;
+            }
+
+            presentNode = presentNode.next; 
+        }
+
+        if (nodeWithMinWeight != null && nodeWithMaxWeight != null) {
+            System.out.println("<<<<<<< Finding MIN and MAX values in one method >>>>>>>");
+            System.out.println("Min weight player >> Node (index: " + indOfMinNode + ", its values: " + nodeWithMinWeight.a + ", " + nodeWithMinWeight.b + ", " + nodeWithMinWeight.c + ") and its weight: " + minWeight);
+            System.out.println("Max weight player >> Node (index: " + indOfMaxNode + ", its values: " + nodeWithMaxWeight.a + ", " + nodeWithMaxWeight.b + ", " + nodeWithMaxWeight.c + ") and its weight: " + maxWeight);
         }
     }
 
@@ -119,5 +157,8 @@ public class Player {
 
         // Task 13 - added part
         teamPlayers.findMinWeight();
+
+        // Task 14 - added part
+        teamPlayers.findMinMaxWeight();
     }
 }
