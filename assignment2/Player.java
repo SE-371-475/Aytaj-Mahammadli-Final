@@ -18,6 +18,10 @@ public class Player {
         // defining our next node with the current index
         SeLinkList nextNode = new SeLinkList(a, b, c, currentIndex);
         nextNode.next = head;
+        nextNode.prev = null;
+        if(head != null){ // it means it is not a starting point and its prev is not null
+            head.prev = nextNode;
+        }
         // updating head by assigning nextNode's value to the initial node
         head = nextNode;
         currentIndex++; 
@@ -54,6 +58,46 @@ public class Player {
            // printing max weight after looping whole array and finding the heighest weight
             System.out.println("Max weight player >> Node (index: " + indOfMaxNode + ", its values: " + nodeWithMaxWeight.a + ", " + nodeWithMaxWeight.b + ", " + nodeWithMaxWeight.c + ") and its weight: " + maxWeight);
         }
+    }
+
+    // removeNode() method to remove nodes based on index
+    public void removeNode(int ind) {
+        if (head == null) {
+            System.out.println("Uppps, we can't remove, because node doesn't exist");
+            return; // return the program
+        }
+
+        SeLinkList presentNode = head;
+
+        if (ind == 0) { // it refers to head, meaning we re standing in head now
+            head = head.next; // assigning the next one to head
+            if (head != null) {
+                head.prev = null; 
+            }
+            System.out.println("Congratsss, the first node was deleted!");
+            return; // return the program
+        }
+
+        // looping to see if there are potential nodes to be deleted
+        for (int i = 0; presentNode != null && i < ind; i++) {
+            presentNode = presentNode.next;
+        }
+
+        // after looping if there is no presentNode, print that 'nothing remains to be deleted'
+        if (presentNode == null) {
+            System.out.println("Sorry, nothing remains to be releted...");
+            return; // return the program
+        }
+
+        // If previous node before presentNode is not null, it means it is not the last node in the queue
+        if (presentNode.prev != null) {
+            presentNode.prev.next = presentNode.next; // skipping the the present node
+        }
+        if (presentNode.next != null) { 
+            presentNode.next.prev = presentNode.prev; // skipping the the present node
+        }
+
+        System.out.println("Deleted values of the node: " + presentNode.a + ", " + presentNode.b + ", " + presentNode.c);
     }
 
     // findMinWeight() method to identify the lowest weight
@@ -154,6 +198,10 @@ public class Player {
 
         // Task 9 - added part
         teamPlayers.findMaxWeight();
+
+
+        // Task 12 - added part
+        teamPlayers.removeNode(0); // deleting the first node
 
         // Task 13 - added part
         teamPlayers.findMinWeight();
