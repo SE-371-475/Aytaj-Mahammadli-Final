@@ -20,7 +20,7 @@ public class Player {
         nextNode.next = head;
         // updating head by assigning nextNode's value to the initial node
         head = nextNode;
-        currentIndex++; // Increment the index for the next player
+        currentIndex++; 
     }
 
     // initializeList() method which takes array of players and pass each player's data to addPlayer() method as an argument
@@ -53,6 +53,28 @@ public class Player {
         if (nodeWithMaxWeight != null) {
            // printing max weight after looping whole array and finding the heighest weight
             System.out.println("Max weight player >> Node (index: " + indOfMaxNode + ", its values: " + nodeWithMaxWeight.a + ", " + nodeWithMaxWeight.b + ", " + nodeWithMaxWeight.c + ") and its weight: " + maxWeight);
+        }
+    }
+
+    // findMinWeight() method to identify the lowest weight
+    public void findMinWeight() {
+        SeLinkList presentNode = head;
+        SeLinkList nodeWithMinWeight = null; // node with the lowest weight
+        int indOfMinNode = -1; // index of the node with the lowest weight
+        int minWeight = Integer.MAX_VALUE; // we define minWeight in which we can compare and store the min weight value later
+
+        while (presentNode != null) {
+            int totalWeight = presentNode.a + presentNode.b + presentNode.c;
+            if (totalWeight < minWeight) { // if total weight is lower than our min weight, we update our min weight, node and its index
+                minWeight = totalWeight;
+                nodeWithMinWeight = presentNode;
+                indOfMinNode = presentNode.ind;
+            }
+            presentNode = presentNode.next; 
+        }
+
+        if (nodeWithMinWeight != null) {
+            System.out.println("Min weight player >> Node (index: " + indOfMinNode + ", its values: " + nodeWithMinWeight.a + ", " + nodeWithMinWeight.b + ", " + nodeWithMinWeight.c + ")");
         }
     }
 
@@ -94,5 +116,8 @@ public class Player {
 
         // Task 9 - added part
         teamPlayers.findMaxWeight();
+
+        // Task 13 - added part
+        teamPlayers.findMinWeight();
     }
 }
