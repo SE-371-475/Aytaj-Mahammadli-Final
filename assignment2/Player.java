@@ -18,6 +18,10 @@ public class Player {
         // defining our next node with the current index
         SeLinkList nextNode = new SeLinkList(a, b, c, currentIndex);
         nextNode.next = head;
+        nextNode.prev = null;
+        if(head != null){ // it means it is not a starting point and its prev is not null
+            head.prev = nextNode;
+        }
         // updating head by assigning nextNode's value to the initial node
         head = nextNode;
         currentIndex++; // Increment the index for the next player

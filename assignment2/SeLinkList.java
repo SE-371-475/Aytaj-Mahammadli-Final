@@ -1,5 +1,6 @@
 public class SeLinkList{
     public SeLinkList next; //reference to next node
+    public SeLinkList prev; //reference to previous node
     // variables describe the index and values of node
     public int a, b, c;
     public int ind;
@@ -11,6 +12,7 @@ public class SeLinkList{
         this.c = val3;
         this.ind = ind;
         this.next = null; // by default it is assigned to null
+        this.prev = null; // by default it is assigned to null
     }
 
     // overloading constructor to give a default value for ind property
@@ -26,6 +28,8 @@ public class SeLinkList{
 
         // connecting initial node with the next node by using 'next'
         n1.next = n2;
+        // connecting the node with the prev node by using 'prev'
+        n2.prev = n1;
 
         // printing the values of the first and second nodes 
         System.out.println("Printing n1 values at index " + n1.ind + ":\n" + n1.a + "\n" + n1.b + "\n" + n1.c);
