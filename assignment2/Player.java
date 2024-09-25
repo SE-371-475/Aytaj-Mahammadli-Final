@@ -4,20 +4,23 @@ public class Player {
 
     // head points to the initial node 
     private SeLinkList head;
+    private int currentIndex; // Track the current index for nodes
 
     // constructor method - modified
     public Player(int teamPlayersCnt) {
         this.numPlayers = teamPlayersCnt;
         this.head = null; // we set our initial node as null
+        this.currentIndex = 0; // Initialize index
     }
 
     // addPlayer() method to add 
     public void addPlayer(int a, int b, int c) {
-        // defining our next node
-        SeLinkList nextNode = new SeLinkList(a, b, c);
+        // defining our next node with the current index
+        SeLinkList nextNode = new SeLinkList(a, b, c, currentIndex);
         nextNode.next = head;
         // updating head by assigning nextNode's value to the initial node
         head = nextNode;
+        currentIndex++; // Increment the index for the next player
     }
 
     // initializeList() method which takes array of players and pass each player's data to addPlayer() method as an argument
@@ -29,6 +32,29 @@ public class Player {
         System.out.println("Total number of participants in the list is " + playersArr.length);
     }
 
+    // Method to find the node with the maximum weight
+    public void findMaxWeight() {
+        SeLinkList presentNode = head;
+        SeLinkList nodeWithMaxWeight = null; // node with the highest weight
+        int indOfMaxNode = -1; // index of the node with the highest weight
+        int maxWeight = Integer.MIN_VALUE; // we define maxWeight in which we can compare and store the max weight value later
+        
+    
+        while (presentNode != null) {
+            int totalWeight = presentNode.a + presentNode.b + presentNode.c;
+            if (totalWeight > maxWeight) { //if total weight is higher than our max weight, we update our max weight, node and its index
+                maxWeight = totalWeight;
+                nodeWithMaxWeight = presentNode;
+                indOfMaxNode = presentNode.ind; 
+            }
+            presentNode = presentNode.next; 
+        }
+
+        if (nodeWithMaxWeight != null) {
+           // printing max weight after looping whole array and finding the heighest weight
+            System.out.println("Max weight player >> Node (index: " + indOfMaxNode + ", its values: " + nodeWithMaxWeight.a + ", " + nodeWithMaxWeight.b + ", " + nodeWithMaxWeight.c + ") and its weight: " + maxWeight);
+        }
+    }
 
     public static void main(String[] args) {
         // creating an object from the Player class
@@ -65,5 +91,8 @@ public class Player {
         // -------------------------------------------------------------------------------------
         // Task 8 - added part
         teamPlayers.initializeList(playerRecordsArr);
+
+        // Task 9 - added part
+        teamPlayers.findMaxWeight();
     }
 }
