@@ -20,6 +20,16 @@ public class Player {
         head = nextNode;
     }
 
+    // initializeList() method which takes array of players and pass each player's data to addPlayer() method as an argument
+    public void initializeList(PlayerData[] playersArr) {
+        for (int i = 0; i < playersArr.length; i++) {
+            addPlayer(playersArr[i].a, playersArr[i].b, playersArr[i].c);
+        }
+
+        System.out.println("Total number of participants in the list is " + playersArr.length);
+    }
+
+
     public static void main(String[] args) {
         // creating an object from the Player class
         Player teamPlayers = new Player(11);
@@ -39,6 +49,7 @@ public class Player {
             System.out.println("Player number " + (i + 1) + ": " + eachPlayerObj.a + " " + eachPlayerObj.b + " " + eachPlayerObj.c);
         }
 
+        // -------------------------------------------------------------------------------------
         // TASK 7 - new added parts
         // in every addPlayer() call, it maintains one node which is linked to another
         teamPlayers.addPlayer(5, 15, 25);
@@ -50,5 +61,9 @@ public class Player {
             System.out.println("Number " + playerOrder + " Player: " + presentNode.a + " " + presentNode.b + " " + presentNode.c);
             presentNode = presentNode.next; // updating our current position in node
         }
+
+        // -------------------------------------------------------------------------------------
+        // Task 8 - added part
+        teamPlayers.initializeList(playerRecordsArr);
     }
 }
