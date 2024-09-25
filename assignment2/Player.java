@@ -19,12 +19,12 @@ public class Player {
         SeLinkList nextNode = new SeLinkList(a, b, c, currentIndex);
         nextNode.next = head;
         nextNode.prev = null;
-        if(head != null){ // it means it is not a starting point and its prev is not null
+        if (head != null) { // it means it is not a starting point and its prev is not null
             head.prev = nextNode;
         }
         // updating head by assigning nextNode's value to the initial node
         head = nextNode;
-        currentIndex++; 
+        currentIndex++;
     }
 
     // initializeList() method which takes array of players and pass each player's data to addPlayer() method as an argument
@@ -37,126 +37,106 @@ public class Player {
     }
 
     // Method to find the node with the maximum weight
-    public void findMaxWeight() {
+    public SeLinkList findMaxWeight() {
         SeLinkList presentNode = head;
         SeLinkList nodeWithMaxWeight = null; // node with the highest weight
-        int indOfMaxNode = -1; // index of the node with the highest weight
         int maxWeight = Integer.MIN_VALUE; // we define maxWeight in which we can compare and store the max weight value later
         
-    
         while (presentNode != null) {
             int totalWeight = presentNode.a + presentNode.b + presentNode.c;
-            if (totalWeight > maxWeight) { // if total weight is higher than our max weight, we update our max weight, node and its index
+            if (totalWeight > maxWeight) { // if total weight is higher than our max weight, we update our max weight, node
                 maxWeight = totalWeight;
                 nodeWithMaxWeight = presentNode;
-                indOfMaxNode = presentNode.ind; 
             }
             presentNode = presentNode.next; 
         }
 
         if (nodeWithMaxWeight != null) {
-           // printing max weight after looping whole array and finding the heighest weight
-            System.out.println("Max weight player >> Node (index: " + indOfMaxNode + ", its values: " + nodeWithMaxWeight.a + ", " + nodeWithMaxWeight.b + ", " + nodeWithMaxWeight.c + ") and its weight: " + maxWeight);
+            // printing max weight after looping whole array and finding the highest weight
+            System.out.println("Max weight player >> Node (index: " + nodeWithMaxWeight.ind + ", its values: " + nodeWithMaxWeight.a + ", " + nodeWithMaxWeight.b + ", " + nodeWithMaxWeight.c + ") and its weight: " + maxWeight);
         }
+
+        return nodeWithMaxWeight;
     }
 
-    // removeNode() method to remove nodes based on index
-    public void removeNode(int ind) {
-        if (head == null) {
-            System.out.println("Uppps, we can't remove, because node doesn't exist");
-            return; // return the program
-        }
-
-        SeLinkList presentNode = head;
-
-        if (ind == 0) { // it refers to head, meaning we re standing in head now
-            head = head.next; // assigning the next one to head
-            if (head != null) {
-                head.prev = null; 
-            }
-            System.out.println("Congratsss, the first node was deleted!");
-            return; // return the program
-        }
-
-        // looping to see if there are potential nodes to be deleted
-        for (int i = 0; presentNode != null && i < ind; i++) {
-            presentNode = presentNode.next;
-        }
-
-        // after looping if there is no presentNode, print that 'nothing remains to be deleted'
-        if (presentNode == null) {
-            System.out.println("Sorry, nothing remains to be releted...");
-            return; // return the program
-        }
-
-        // If previous node before presentNode is not null, it means it is not the last node in the queue
-        if (presentNode.prev != null) {
-            presentNode.prev.next = presentNode.next; // skipping the the present node
-        }
-        if (presentNode.next != null) { 
-            presentNode.next.prev = presentNode.prev; // skipping the the present node
-        }
-
-        System.out.println("Deleted values of the node: " + presentNode.a + ", " + presentNode.b + ", " + presentNode.c);
-    }
-
-    // findMinWeight() method to identify the lowest weight
-    public void findMinWeight() {
+    // Method to find the node with the minimum weight
+    public SeLinkList findMinWeight() {
         SeLinkList presentNode = head;
         SeLinkList nodeWithMinWeight = null; // node with the lowest weight
-        int indOfMinNode = -1; // index of the node with the lowest weight
         int minWeight = Integer.MAX_VALUE; // we define minWeight in which we can compare and store the min weight value later
 
         while (presentNode != null) {
             int totalWeight = presentNode.a + presentNode.b + presentNode.c;
-            if (totalWeight < minWeight) { // if total weight is lower than our min weight, we update our min weight, node and its index
+            if (totalWeight < minWeight) { // if total weight is lower than our min weight, we update our min weight, node
                 minWeight = totalWeight;
                 nodeWithMinWeight = presentNode;
-                indOfMinNode = presentNode.ind;
             }
             presentNode = presentNode.next; 
         }
 
         if (nodeWithMinWeight != null) {
-            System.out.println("Min weight player >> Node (index: " + indOfMinNode + ", its values: " + nodeWithMinWeight.a + ", " + nodeWithMinWeight.b + ", " + nodeWithMinWeight.c + ")");
+            System.out.println("Min weight player >> Node (index: " + nodeWithMinWeight.ind + ", its values: " + nodeWithMinWeight.a + ", " + nodeWithMinWeight.b + ", " + nodeWithMinWeight.c + ")");
+        }
+
+        return nodeWithMinWeight;
+    }
+
+    // Method to find both min and max weights
+    public void findMinMaxWeight() {
+        SeLinkList maxNode = findMaxWeight();
+        SeLinkList minNode = findMinWeight();
+
+        if (maxNode != null) {
+            System.out.println("Max weight: " + (maxNode.a + maxNode.b + maxNode.c));
+        }
+        if (minNode != null) {
+            System.out.println("Min weight: " + (minNode.a + minNode.b + minNode.c));
         }
     }
 
-    // findMinMaxWeight() method to find both MIN and MAX weights together
-    public void findMinMaxWeight() {
-        SeLinkList presentNode = head;
-        SeLinkList nodeWithMinWeight = null; // node with the lowest weight
-        SeLinkList nodeWithMaxWeight = null; // node with the highest weight
-        int indOfMinNode = -1; // index of the node with the lowest weight
-        int indOfMaxNode = -1; // index of the node with the highest weight
-        int minWeight = Integer.MAX_VALUE; // we define minWeight in which we can compare and store the min weight value later
-        int maxWeight = Integer.MIN_VALUE; // we define maxWeight in which we can compare and store the max weight value later
+    // removeNode() method to remove nodes based on the node reference
+    public void removeNode(SeLinkList node) {
+        if (node == null) return;
 
-        // filtering the list and comparing values with each other to find MIN and MAX
-        while (presentNode != null) {
-            int totalWeight = presentNode.a + presentNode.b + presentNode.c;
-
-            // if total weight is lower than our min weight, we update our min weight, node and its index
-            if (totalWeight < minWeight) {
-                minWeight = totalWeight;
-                nodeWithMinWeight = presentNode;
-                indOfMinNode = presentNode.ind;
-            }
-
-            // if total weight is higher than our max weight, we update our max weight, node and its index
-            if (totalWeight > maxWeight) {
-                maxWeight = totalWeight;
-                nodeWithMaxWeight = presentNode;
-                indOfMaxNode = presentNode.ind;
-            }
-
-            presentNode = presentNode.next; 
+        // linking nodes based on conditions
+        if (node.prev != null) { 
+            node.prev.next = node.next; 
+        } else {
+            head = node.next; // if the head to be deleted
         }
 
-        if (nodeWithMinWeight != null && nodeWithMaxWeight != null) {
-            System.out.println("<<<<<<< Finding MIN and MAX values in one method >>>>>>>");
-            System.out.println("Min weight player >> Node (index: " + indOfMinNode + ", its values: " + nodeWithMinWeight.a + ", " + nodeWithMinWeight.b + ", " + nodeWithMinWeight.c + ") and its weight: " + minWeight);
-            System.out.println("Max weight player >> Node (index: " + indOfMaxNode + ", its values: " + nodeWithMaxWeight.a + ", " + nodeWithMaxWeight.b + ", " + nodeWithMaxWeight.c + ") and its weight: " + maxWeight);
+        if (node.next != null) {
+            node.next.prev = node.prev; 
+        }
+
+        System.out.println("Deleted values of the node: " + node.a + ", " + node.b + ", " + node.c);
+    }
+
+    // additional removeMinMaxPlayers() method to delete min and max nodes from the list
+    public void removeMinMaxPlayers() {
+        SeLinkList maxNode = findMaxWeight();
+        SeLinkList minNode = findMinWeight();
+
+        if (maxNode != null) {
+            System.out.println("Deleting max node - its values: " + maxNode.a + ", " + maxNode.b + ", " + maxNode.c);
+            removeNode(maxNode);
+        }
+        
+        if (minNode != null) {
+            System.out.println("Deleting min node - its values: " + minNode.a + ", " + minNode.b + ", " + minNode.c);
+            removeNode(minNode);
+        }
+    }
+
+    public void displayRemainingPlayers() {
+        SeLinkList presentNode = head;
+        int playerSequence = 1;
+
+        System.out.println("Final remaining players after removing min and max nodes:");
+        while (presentNode != null) {
+            System.out.println("Number " + playerSequence + " Player: " + presentNode.a + " " + presentNode.b + " " + presentNode.c);
+            presentNode = presentNode.next;
+            playerSequence++;
         }
     }
 
@@ -195,18 +175,25 @@ public class Player {
         // -------------------------------------------------------------------------------------
         // Task 8 - added part
         teamPlayers.initializeList(playerRecordsArr);
-
+        // -------------------------------------------------------------------------------------
         // Task 9 - added part
         teamPlayers.findMaxWeight();
-
-
+        // -------------------------------------------------------------------------------------
         // Task 12 - added part
-        teamPlayers.removeNode(0); // deleting the first node
-
+        teamPlayers.removeNode(teamPlayers.head); // deleting the first node
+        // -------------------------------------------------------------------------------------
         // Task 13 - added part
         teamPlayers.findMinWeight();
-
+        // -------------------------------------------------------------------------------------
         // Task 14 - added part
         teamPlayers.findMinMaxWeight();
+        // -------------------------------------------------------------------------------------
+        // Task 16 - added part - removing players with min and max weight
+        teamPlayers.removeMinMaxPlayers();
+        // displaying the remaining players after deletion
+        teamPlayers.displayRemainingPlayers();
+        // -------------------------------------------------------------------------------------
+        System.out.println("[Done!]");
+        System.out.println("[Aytaj Mahammadli - Git Assignment]");
     }
 }
